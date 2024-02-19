@@ -2,10 +2,6 @@
 
 Write a short description about the changes this pull request implements
 
-## Issue ticket number and link
-
-\[Label\]\(URL\)
-
 ## Testing
 
 1. Write a few steps on how to test these changes
