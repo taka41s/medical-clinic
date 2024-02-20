@@ -1,0 +1,36 @@
+version: "3.4"
+
+x-ajp: &ajp
+  build:
+    dockerfile: development.Dockerfile
+  volumes:
+    - .:/app
+  environment:
+    - DB_HOSTNAME=db
+    - DB_PORT=5432
+    - DB_USERNAME=postgres
+    - DB_PASSWORD=postgres
+
+services:
+  app:
+    <<: *ajp
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+    command: bash -c "go run ."
+    ports:
+      - 8080:8080
+    links:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./backup:/backup
+    ports:
+      - "5432:5432"
