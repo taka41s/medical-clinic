@@ -2,6 +2,12 @@ package api
 
 import "net/http"
 
-func Root(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello, world!"))
+type Route struct {
+	Path    string
+	Handler func(http.ResponseWriter, *http.Request)
+}
+
+var routes = []Route{
+	{Path: "/", Handler: Root},
+	{Path: "/greet", Handler: Greet},
 }
