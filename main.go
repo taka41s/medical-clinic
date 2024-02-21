@@ -9,9 +9,6 @@ import (
 )
 
 func main() {
-	defer fmt.Println("End of program")
-	defer os.Exit(1)
-
 	startServer()
 }
 
