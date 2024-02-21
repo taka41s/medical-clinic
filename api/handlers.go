@@ -1,7 +1,6 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
 )
 
@@ -10,33 +9,9 @@ type Response struct {
 }
 
 func Root(w http.ResponseWriter, r *http.Request) {
-	response := Response{
-		Message: "Hello, world!",
-	}
-
-	responseData, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	w.Write(responseData)
+	writeJSONResponse(w, "Hello, world!", http.StatusOK)
 }
 
 func Greet(w http.ResponseWriter, r *http.Request) {
-	response := Response{
-		Message: "Greetings!",
-	}
-
-	responseData, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-
-	w.Write(responseData)
+	writeJSONResponse(w, "Greetings!", http.StatusOK)
 }
