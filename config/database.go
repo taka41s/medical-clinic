@@ -1,29 +1,50 @@
 package config
 
 import (
-	"database/sql"
+    "database/sql"
     "fmt"
-    "log"
-    "os"
-	_ "github.com/lib/pq"
+	"github.com/pressly/goose"
+
+    _ "github.com/lib/pq"
 )
 
-func SetupDatabase(){
-    dbString := os.Getenv("GOOSE_DBSTRING")
-    if dbString == "" {
-        log.Fatal("GOOSE_DBSTRING environment variable is not set")
-    }
+const (
+    host     = "db"
+    port     = 5432
+    user     = "postgres"
+    password = "postgres"
+    dbname   = "medical_clinic"
+)
 
-    db, err := sql.Open("postgres", dbString)
+func SetupDatabase() error {
+    connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=postgres sslmode=disable",
+        host, port, user, password)
+    db, err := sql.Open("postgres", connStr)
     if err != nil {
-        log.Fatalf("Failed to open database: %v", err)
+        return err
     }
     defer db.Close()
 
-    err = db.Ping()
+    var exists bool
+    err = db.QueryRow("SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = $1)", dbname).Scan(&exists)
     if err != nil {
-        log.Fatalf("Failed to connect to database: %v", err)
+        return err
     }
 
-    fmt.Println("Successfully connected to the database")
+    if !exists {
+        _, err := db.Exec("CREATE DATABASE " + dbname)
+        if err != nil {
+            return err
+        }
+        fmt.Printf("Database '%s' created successfully.\n", dbname)
+    } else {
+        fmt.Printf("Database '%s' already exists.\n", dbname)
+    }
+
+	err = goose.Up(db, "./config/migrations")
+	if err != nil {
+		return err
+	}
+
+    return nil
 }

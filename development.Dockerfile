@@ -13,5 +13,6 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download
+RUN chmod +x entrypoint.sh
 
 CMD ["bash", "-c", "go run ."]
