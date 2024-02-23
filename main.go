@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"ajp-medical-clinic/api"
 )
 
 func main() {
-	fmt.Println("End of program")
-	os.Exit(1)
+	api.StartServer()
 }

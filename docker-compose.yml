@@ -1,0 +1,26 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      dockerfile: development.Dockerfile
+    volumes:
+      - .:/app
+    environment:
+      - DB_HOSTNAME=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+
+  db:
+    image: postgres:16.2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
