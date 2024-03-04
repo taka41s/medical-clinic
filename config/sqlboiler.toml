@@ -1,0 +1,7 @@
+[psql]
+  dbname  = "medical_clinic"
+  host    = "db"
+  port    = 5432
+  user    = "postgres"
+  pass    = "postgres"
+  sslmode = "disable"

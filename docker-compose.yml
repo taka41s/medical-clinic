@@ -11,6 +11,7 @@ services:
       - DB_PORT=5432
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
+      - PSQL_DBNAME="medical_clinic"
     depends_on:
       - db
     ports:
@@ -22,5 +23,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: medical_clinic
     ports:
       - "5432:5432"
