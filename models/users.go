@@ -29,6 +29,8 @@ type User struct {
 	Age         null.Int    `boil:"age" json:"age,omitempty" toml:"age" yaml:"age,omitempty"`
 	Gender      GenderType  `boil:"gender" json:"gender" toml:"gender" yaml:"gender"`
 	PhoneNumber null.String `boil:"phone_number" json:"phone_number,omitempty" toml:"phone_number" yaml:"phone_number,omitempty"`
+	Username    string      `boil:"username" json:"username" toml:"username" yaml:"username"`
+	Email       string      `boil:"email" json:"email" toml:"email" yaml:"email"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -40,12 +42,16 @@ var UserColumns = struct {
 	Age         string
 	Gender      string
 	PhoneNumber string
+	Username    string
+	Email       string
 }{
 	ID:          "id",
 	Name:        "name",
 	Age:         "age",
 	Gender:      "gender",
 	PhoneNumber: "phone_number",
+	Username:    "username",
+	Email:       "email",
 }
 
 var UserTableColumns = struct {
@@ -54,12 +60,16 @@ var UserTableColumns = struct {
 	Age         string
 	Gender      string
 	PhoneNumber string
+	Username    string
+	Email       string
 }{
 	ID:          "users.id",
 	Name:        "users.name",
 	Age:         "users.age",
 	Gender:      "users.gender",
 	PhoneNumber: "users.phone_number",
+	Username:    "users.username",
+	Email:       "users.email",
 }
 
 // Generated where
@@ -220,12 +230,16 @@ var UserWhere = struct {
 	Age         whereHelpernull_Int
 	Gender      whereHelperGenderType
 	PhoneNumber whereHelpernull_String
+	Username    whereHelperstring
+	Email       whereHelperstring
 }{
 	ID:          whereHelperint{field: "\"users\".\"id\""},
 	Name:        whereHelperstring{field: "\"users\".\"name\""},
 	Age:         whereHelpernull_Int{field: "\"users\".\"age\""},
 	Gender:      whereHelperGenderType{field: "\"users\".\"gender\""},
 	PhoneNumber: whereHelpernull_String{field: "\"users\".\"phone_number\""},
+	Username:    whereHelperstring{field: "\"users\".\"username\""},
+	Email:       whereHelperstring{field: "\"users\".\"email\""},
 }
 
 // UserRels is where relationship names are stored.
@@ -245,8 +259,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number"}
-	userColumnsWithoutDefault = []string{"name", "gender"}
+	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number", "username", "email"}
+	userColumnsWithoutDefault = []string{"name", "gender", "username", "email"}
 	userColumnsWithDefault    = []string{"id", "age", "phone_number"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
