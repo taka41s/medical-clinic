@@ -6,7 +6,9 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     age INT,
     gender gender_type NOT NULL,
-    phone_number VARCHAR(20)
+    phone_number VARCHAR(20),
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
 );
 
 -- Add a check constraint to enforce the gender_type values
