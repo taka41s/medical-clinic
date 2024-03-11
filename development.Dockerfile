@@ -12,8 +12,12 @@ WORKDIR /app
 
 COPY . .
 
+RUN go mod tidy
 RUN go mod download
 
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+RUN go install github.com/volatiletech/sqlboiler/v4@latest
+RUN go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@latest
+RUN go get -u -t github.com/volatiletech/sqlboiler
 
 CMD ["bash", "-c", "go run ."]

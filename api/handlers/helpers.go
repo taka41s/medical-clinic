@@ -1,11 +1,11 @@
-package api
+package handlers
 
 import (
 	"encoding/json"
 	"net/http"
 )
 
-func writeJSONResponse(w http.ResponseWriter, message string, statusCode int) {
+func WriteJSONResponse(w http.ResponseWriter, message string, statusCode int) {
 	response := Response{
 		Message: message,
 	}

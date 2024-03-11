@@ -3,9 +3,7 @@ package config
 import (
 	"database/sql"
 	"fmt"
-
 	_ "github.com/lib/pq"
-	"github.com/pressly/goose"
 )
 
 const (
@@ -39,11 +37,6 @@ func SetupDatabase() error {
 		fmt.Printf("Database '%s' created successfully.\n", dbname)
 	} else {
 		fmt.Printf("Database '%s' already exists.\n", dbname)
-	}
-
-	err = goose.Up(db, "./config/migrations")
-	if err != nil {
-		return err
 	}
 
 	return nil

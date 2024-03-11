@@ -1,6 +1,8 @@
 package api
 
-import "net/http"
+import 	( "net/http"
+		  "ajp-medical-clinic/api/handlers"
+		)
 
 type Route struct {
 	Path    string
@@ -8,6 +10,6 @@ type Route struct {
 }
 
 var routes = []Route{
-	{Path: "/", Handler: Root},
-	{Path: "/greet", Handler: Greet},
+	{Path: "/user", Handler: handlers.RegisterUser},
+	{Path: "/users", Handler: handlers.FetchUsers},
 }
