@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"github.com/gorilla/mux" // Import gorilla/mux
+	"github.com/gorilla/mux"
 	"ajp-medical-clinic/api/handlers"
 )
 
@@ -31,7 +31,6 @@ func InitializeRoutes() {
 
 func wrapHandler(handler http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Perform any additional logic here if needed
 		handler.ServeHTTP(w, r)
 	}
 }
