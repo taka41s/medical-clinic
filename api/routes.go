@@ -2,7 +2,7 @@ package api
 
 import (
 	"net/http"
-	"strings"
+	"github.com/gorilla/mux" // Import gorilla/mux
 	"ajp-medical-clinic/api/handlers"
 )
 
@@ -14,30 +14,24 @@ type Route struct {
 
 var routes = []Route{
 	{Path: "/user", Method: http.MethodPost, Handler: http.HandlerFunc(handlers.RegisterUser)},
+	{Path: "/user/{id}", Method: http.MethodGet, Handler: http.HandlerFunc(handlers.FetchUserByID)},
 	{Path: "/users", Method: http.MethodGet, Handler: http.HandlerFunc(handlers.FetchUsers)},
+	{Path: "/health_insurances", Method: http.MethodGet, Handler: http.HandlerFunc(handlers.FetchHealthInsurances)},
 }
 
 func InitializeRoutes() {
+	r := mux.NewRouter()
+
 	for _, route := range routes {
-		http.Handle(route.Path, MethodMiddleware(route.Handler))
+		r.HandleFunc(route.Path, wrapHandler(route.Handler)).Methods(route.Method)
 	}
+
+	http.Handle("/", r)
 }
 
-func MethodMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !IsMethodAllowed(r.URL.Path, r.Method) {
-			http.Error(w, "BAD REQUEST", http.StatusMethodNotAllowed)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
-
-func IsMethodAllowed(path string, method string) bool {
-	for _, route := range routes {
-		if route.Path == path {
-			return strings.ToUpper(route.Method) == strings.ToUpper(method)
-		}
+func wrapHandler(handler http.Handler) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Perform any additional logic here if needed
+		handler.ServeHTTP(w, r)
 	}
-	return false
 }
