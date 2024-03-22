@@ -31,7 +31,6 @@ type User struct {
 	PhoneNumber null.String `boil:"phone_number" json:"phone_number,omitempty" toml:"phone_number" yaml:"phone_number,omitempty"`
 	Username    string      `boil:"username" json:"username" toml:"username" yaml:"username"`
 	Email       string      `boil:"email" json:"email" toml:"email" yaml:"email"`
-	Type        string      `boil:"type" json:"type" toml:"type" yaml:"type"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -45,7 +44,6 @@ var UserColumns = struct {
 	PhoneNumber string
 	Username    string
 	Email       string
-	Type        string
 }{
 	ID:          "id",
 	Name:        "name",
@@ -54,7 +52,6 @@ var UserColumns = struct {
 	PhoneNumber: "phone_number",
 	Username:    "username",
 	Email:       "email",
-	Type:        "type",
 }
 
 var UserTableColumns = struct {
@@ -65,7 +62,6 @@ var UserTableColumns = struct {
 	PhoneNumber string
 	Username    string
 	Email       string
-	Type        string
 }{
 	ID:          "users.id",
 	Name:        "users.name",
@@ -74,37 +70,9 @@ var UserTableColumns = struct {
 	PhoneNumber: "users.phone_number",
 	Username:    "users.username",
 	Email:       "users.email",
-	Type:        "users.type",
 }
 
 // Generated where
-
-type whereHelperstring struct{ field string }
-
-func (w whereHelperstring) EQ(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.EQ, x) }
-func (w whereHelperstring) NEQ(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
-func (w whereHelperstring) LT(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.LT, x) }
-func (w whereHelperstring) LTE(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.LTE, x) }
-func (w whereHelperstring) GT(x string) qm.QueryMod     { return qmhelper.Where(w.field, qmhelper.GT, x) }
-func (w whereHelperstring) GTE(x string) qm.QueryMod    { return qmhelper.Where(w.field, qmhelper.GTE, x) }
-func (w whereHelperstring) LIKE(x string) qm.QueryMod   { return qm.Where(w.field+" LIKE ?", x) }
-func (w whereHelperstring) NLIKE(x string) qm.QueryMod  { return qm.Where(w.field+" NOT LIKE ?", x) }
-func (w whereHelperstring) ILIKE(x string) qm.QueryMod  { return qm.Where(w.field+" ILIKE ?", x) }
-func (w whereHelperstring) NILIKE(x string) qm.QueryMod { return qm.Where(w.field+" NOT ILIKE ?", x) }
-func (w whereHelperstring) IN(slice []string) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
-}
-func (w whereHelperstring) NIN(slice []string) qm.QueryMod {
-	values := make([]interface{}, 0, len(slice))
-	for _, value := range slice {
-		values = append(values, value)
-	}
-	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
-}
 
 type whereHelpernull_Int struct{ field string }
 
@@ -237,7 +205,6 @@ var UserWhere = struct {
 	PhoneNumber whereHelpernull_String
 	Username    whereHelperstring
 	Email       whereHelperstring
-	Type        whereHelperstring
 }{
 	ID:          whereHelperint{field: "\"users\".\"id\""},
 	Name:        whereHelperstring{field: "\"users\".\"name\""},
@@ -246,7 +213,6 @@ var UserWhere = struct {
 	PhoneNumber: whereHelpernull_String{field: "\"users\".\"phone_number\""},
 	Username:    whereHelperstring{field: "\"users\".\"username\""},
 	Email:       whereHelperstring{field: "\"users\".\"email\""},
-	Type:        whereHelperstring{field: "\"users\".\"type\""},
 }
 
 // UserRels is where relationship names are stored.
@@ -266,9 +232,9 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number", "username", "email", "type"}
+	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number", "username", "email"}
 	userColumnsWithoutDefault = []string{"name", "gender", "username", "email"}
-	userColumnsWithDefault    = []string{"id", "age", "phone_number", "type"}
+	userColumnsWithDefault    = []string{"id", "age", "phone_number"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
 )
