@@ -31,6 +31,7 @@ type User struct {
 	PhoneNumber null.String `boil:"phone_number" json:"phone_number,omitempty" toml:"phone_number" yaml:"phone_number,omitempty"`
 	Username    string      `boil:"username" json:"username" toml:"username" yaml:"username"`
 	Email       string      `boil:"email" json:"email" toml:"email" yaml:"email"`
+	Type        string      `boil:"type" json:"type" toml:"type" yaml:"type"`
 
 	R *userR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L userL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -44,6 +45,7 @@ var UserColumns = struct {
 	PhoneNumber string
 	Username    string
 	Email       string
+	Type        string
 }{
 	ID:          "id",
 	Name:        "name",
@@ -52,6 +54,7 @@ var UserColumns = struct {
 	PhoneNumber: "phone_number",
 	Username:    "username",
 	Email:       "email",
+	Type:        "type",
 }
 
 var UserTableColumns = struct {
@@ -62,6 +65,7 @@ var UserTableColumns = struct {
 	PhoneNumber string
 	Username    string
 	Email       string
+	Type        string
 }{
 	ID:          "users.id",
 	Name:        "users.name",
@@ -70,6 +74,7 @@ var UserTableColumns = struct {
 	PhoneNumber: "users.phone_number",
 	Username:    "users.username",
 	Email:       "users.email",
+	Type:        "users.type",
 }
 
 // Generated where
@@ -232,6 +237,7 @@ var UserWhere = struct {
 	PhoneNumber whereHelpernull_String
 	Username    whereHelperstring
 	Email       whereHelperstring
+	Type        whereHelperstring
 }{
 	ID:          whereHelperint{field: "\"users\".\"id\""},
 	Name:        whereHelperstring{field: "\"users\".\"name\""},
@@ -240,6 +246,7 @@ var UserWhere = struct {
 	PhoneNumber: whereHelpernull_String{field: "\"users\".\"phone_number\""},
 	Username:    whereHelperstring{field: "\"users\".\"username\""},
 	Email:       whereHelperstring{field: "\"users\".\"email\""},
+	Type:        whereHelperstring{field: "\"users\".\"type\""},
 }
 
 // UserRels is where relationship names are stored.
@@ -259,9 +266,9 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number", "username", "email"}
+	userAllColumns            = []string{"id", "name", "age", "gender", "phone_number", "username", "email", "type"}
 	userColumnsWithoutDefault = []string{"name", "gender", "username", "email"}
-	userColumnsWithDefault    = []string{"id", "age", "phone_number"}
+	userColumnsWithDefault    = []string{"id", "age", "phone_number", "type"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
 )
