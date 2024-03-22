@@ -1,7 +1,0 @@
--- +goose Up
-ALTER TABLE users
-ADD COLUMN type VARCHAR(50) NOT NULL DEFAULT '';
-
--- +goose Down
-ALTER TABLE users
-DROP COLUMN IF EXISTS type;
