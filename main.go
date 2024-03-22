@@ -5,11 +5,16 @@ package main
 import (
 	"ajp-medical-clinic/api"
 	"ajp-medical-clinic/config"
+	"ajp-medical-clinic/config/test"
 )
 
 func main() {
 	config.SetupDatabase()
 	api.StartServer()
+}
+
+func TestSetup() {
+	TestConfig.SetupDatabase()
 }
 
 
